@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# firebase
+smartcastlebase-firebase-adminsdk-cb2np-d37b2b24fd.json
