@@ -39,7 +39,7 @@ except:
 
 
 
-def setData(open) 
+def setData(open):
     now = datetime.now()
     current_time = now.isoformat()
     print(current_time + ': Door status changed new Status:' + open)
