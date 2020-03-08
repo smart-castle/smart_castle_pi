@@ -19,6 +19,13 @@ firebase_admin.initialize_app(cred, {
 ref = db.reference('users/' + secrets.uid + '/devices/' + secrets.did + '/services/' + secrets.sid)
 refData = db.reference('users/' + secrets.uid + '/devices/' + secrets.did + '/services/' + secrets.sid + '/data/')
 
+def setData(open):
+    now = datetime.now().replace(microsecond=0)
+    current_time = now.isoformat()
+    print(current_time + ': Door status changed new Status:' + str(open))
+    refData.set({
+        current_time : str(open)
+    })
 
 oldButtonState = True
 
@@ -39,10 +46,3 @@ except:
 
 
 
-def setData(open):
-    now = datetime.now()
-    current_time = now.isoformat()
-    print(current_time + ': Door status changed new Status:' + str(open))
-    refData.set({
-        current_time: str(open)
-    })
