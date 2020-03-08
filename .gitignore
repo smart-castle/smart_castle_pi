@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # firebase
-smartcastlebase-firebase-adminsdk-cb2np-d37b2b24fd.json
+**/smartcastlebase-firebase-adminsdk.json
+**/secrets.py
