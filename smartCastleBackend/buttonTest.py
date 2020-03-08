@@ -16,7 +16,7 @@ oldButtonState = True
 try:
     while True:
         button_state = GPIO.input(23)
-        if oldButtonState != button_state
+        if oldButtonState != button_state:
             oldButtonState = button_state
             if button_state == False:
                 GPIO.output(24, True)
