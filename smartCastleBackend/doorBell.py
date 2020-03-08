@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 import secrets
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, db, messaging
 
 GPIO.setmode(GPIO.BCM)
 
@@ -27,6 +27,13 @@ def setData(open):
         current_time : str(open)
     })
 
+def sendMessage():
+    now = datetime.now().replace(microsecond=0)
+    current_time = now.isoformat()
+    note = firebase_admin.messaging.Notification(title='Door Alarm', body='Door was Opend at: ' + current_time, image=None)
+    message = firebase_admin.messaging.Message(data=None, notification=note, android=None, webpush=None, apns=None, fcm_options=None, token=secrets.token, topic=None, condition=None)
+    firebase_admin.messaging.send(message, dry_run=False, app=None)
+
 oldButtonState = True
 
 try:
@@ -40,6 +47,7 @@ try:
             else:
                 GPIO.output(24, False)
                 setData(button_state)
+                sendMessage()
         time.sleep(2)
 except:
     GPIO.cleanup()

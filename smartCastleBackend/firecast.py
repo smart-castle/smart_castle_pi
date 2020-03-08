@@ -1,6 +1,8 @@
+import time
+from datetime import datetime
 import secrets
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, db, messaging
 
 cred = credentials.Certificate("smartcastlebase-firebase-adminsdk.json")
 # Initialize the app with a service account, granting admin privileges
@@ -8,20 +10,27 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://smartcastlebase.firebaseio.com/'
 })
 
-# As an admin, the app has access to read and write all data, regradless of Security Rules
 ref = db.reference('users/' + secrets.uid + '/devices/' + secrets.did + '/services/' + secrets.sid)
-ref.set({
-    'isOpen': 'false',
-    'name': 'Door open sensor',
-    'type': '1',
-    'nr': '1',
-})
-print(ref.get())
+refData = db.reference('users/' + secrets.uid + '/devices/' + secrets.did + '/services/' + secrets.sid + '/data/')
+
+def setData(open):
+    now = datetime.now().replace(microsecond=0)
+    current_time = now.isoformat()
+    print(current_time + ': Door status changed new Status:' + str(open))
+    refData.set({
+        current_time : str(open)
+    })
+
+def sendMessage():
+    now = datetime.now().replace(microsecond=0)
+    current_time = now.isoformat()
+    note = firebase_admin.messaging.Notification(title='Door Alarm', body='Door was Opend at: ' + current_time, image=None)
+    message = firebase_admin.messaging.Message(data=None, notification=note, android=None, webpush=None, apns=None, fcm_options=None, token=secrets.token, topic=None, condition=None)
+    firebase_admin.messaging.send(message, dry_run=False, app=None)
 
 
-# "users": {
-#       "$uid": {
-#         ".read": "$uid === auth.uid",
-#         ".write": "$uid === auth.uid"
-#       }
-#     }
+setData(1)
+sendMessage()
+
+
+
