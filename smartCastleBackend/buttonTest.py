@@ -11,17 +11,20 @@ now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
 
 print('Button Pressed...' + current_time)
+oldButtonState = True
 
 try:
     while True:
         button_state = GPIO.input(23)
-        if button_state == False:
-            GPIO.output(24, True)
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
-            print('Button Pressed...' + current_time)
-            time.sleep(0.2)
-        else:
-            GPIO.output(24, False)
+        if oldButtonState != button_state
+            oldButtonState = button_state
+            if button_state == False:
+                GPIO.output(24, True)
+                now = datetime.now()
+                current_time = now.strftime("%H:%M:%S")
+                print('Button Pressed...' + current_time)
+            else:
+                GPIO.output(24, False)
+        time.sleep(0.2)
 except:
     GPIO.cleanup()
