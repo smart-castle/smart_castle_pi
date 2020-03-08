@@ -8,7 +8,7 @@ GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button to GPIO23
 GPIO.setup(24, GPIO.OUT)  #LED to GPIO24
 
 now = datetime.now()
-current_time = now.isoformat
+current_time = now.isoformat()
 
 print('Button Pressed...' + current_time)
 oldButtonState = True
@@ -21,7 +21,7 @@ try:
             if button_state == False:
                 GPIO.output(24, True)
                 now = datetime.now()
-                current_time = now.isoformat
+                current_time = now.isoformat()
                 print('Button Pressed...' + current_time)
             else:
                 GPIO.output(24, False)
