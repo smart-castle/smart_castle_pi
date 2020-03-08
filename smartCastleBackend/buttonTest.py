@@ -17,8 +17,6 @@ try:
         button_state = GPIO.input(23)
         if button_state == False:
             GPIO.output(24, True)
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
             print('Button Pressed...' + datetime.now())
             time.sleep(0.2)
         else:
